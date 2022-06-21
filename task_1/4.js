@@ -3,14 +3,16 @@
 
 _for = () => {
   for (let i = 1; i <= 20; i++) {
-    console.log(i)
+    i % 2 === 0 ? console.log(i) : null
   }
 }
 
 _whileDo = () => {
   let i = 1
   while (i <= 20) {
-    console.log(i)
+    if (i % 2 === 0) {
+      console.log(i)
+    }
     i++
   }
 }
@@ -19,6 +21,6 @@ _doWhile = () => {
   let i = 0
   do {
     i++
-    console.log(i)
+    i % 2 === 0 ? console.log(i) : null
   } while (i < 20)
 }
