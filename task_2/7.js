@@ -4,17 +4,10 @@
 // 3. Присвоить значение ‘Bob’ в свойство name
 // 4. Удалить оба свойства
 
-const obj = Object.create({}, {
-  name: {
-    value: 'Alex',
-    writable: true,
-    configurable: true
-  },
-  lastName: {
-    value: 'Smith',
-    configurable: true
-  }
-})
+const obj = {
+  name: 'Alex',
+  lastName: 'Smith'
+}
 
 obj.name = 'Bob'
 delete obj.name

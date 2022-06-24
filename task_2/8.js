@@ -6,7 +6,7 @@
 const human = Object.create({}, {
   fullName: {
     get: function() {
-      return `${this.lastName} ${this.firstName}`
+      return `${this.lastName || ''} ${this.firstName || ''}`.trim()
     },
     set: function(val) {
       [this.lastName, this.firstName] = val.split(' ')
@@ -14,12 +14,12 @@ const human = Object.create({}, {
   },
   dateOfBirth: {
     get: function() {
-      return `${this.dayOfBirth}.${this.monthOfBirth}.${this.yearOfBirth}`
+      return new Date(`${this.monthOfBirth}.${this.dayOfBirth}.${this.yearOfBirth}`)
     },
     set: function(date) {
       this.age = new Date().getFullYear() - date.getFullYear()
       this.dayOfBirth = date.getDate()
-      this.monthOfBirth = date.getMonth()
+      this.monthOfBirth = date.getMonth() + 1
       this.yearOfBirth = date.getFullYear()
     }
   }
