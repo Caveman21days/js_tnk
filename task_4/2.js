@@ -20,53 +20,36 @@
 // Верфи и корабли должны создаваться с помощью функций-конструкторов.
 
 
-const shipyardPrototype = {
+const shipyardPrototype = Object.create({
+  changeShipColor: function(ship, color) {
+    ship.color = color
+  },
+  createShip: function(kind, ...args) {
+    // В такой реализации вроде как и смысла нет проверять тип корабля,
+    // тут DI и конструктор верфи исключают все проблемы, плюс
+    // какой смысл передавать тип корабля в верфь с конкретным типом, но пусть будет
+    if (this.checkAccess({kind})) return this.buildShip(...args)
+  },
+  repairShip: function(ship) {
+    if (this.checkAccess(ship)) console.log('repairing...')
+  },
+  tradeShip: function(ship) {
+    if (this.checkAccess(ship)) console.log('success trade!')
+  },
+  checkAccess: function(target = {kind: ''}) {
+    if (!target.kind) return alert("wrong argument error");
+    return target.kind === this.kind || console.log('wrong ship kind!')
+  },
+  buildShip: function () { alert("Not implemented error")}
+}, {
   kind: {
     configurable: false,
     get: function() {
       return this.shipyardKind
     }
-  },
-  changeShipColor: function(ship, color) {
-    ship.color = color
-  },
-  createShip: function(kind, ...args) {
-    return this.handleShip(['kind', kind],function() {
-      switch (kind) {
-        case 'motor':
-          return new MotorShip(...args)
-        case 'sail':
-          return new SailShip(...args)
-      }
-    })
-  },
-  repairShip: function(ship) {
-    this.handleShip(['ship', ship], function() { console.log('repairing...') })
-  },
-  tradeShip: function(ship) {
-    this.handleShip(['ship', ship], function() { console.log('success trade!') })
-  },
-  handleShip: function(arg, callbackFn) {
-    let hasAccess;
-
-    switch(arg[0]) {
-      case 'kind':
-        hasAccess = arg[1] === this.shipyardKind
-        break;
-      case 'ship':
-        hasAccess = arg[1].kind === this.shipyardKind
-        break;
-      default:
-        alert("wrong argument error");
-    }
-
-    if (hasAccess) {
-      return callbackFn()
-    } else {
-      console.log('wrong ship kind!')
-    }
   }
-}
+})
+
 
 const ship = Object.create({}, {
   kind: {
@@ -85,14 +68,20 @@ const ship = Object.create({}, {
 
 function MotorShipyard() {
   this.shipyardKind = 'motor'
+  this.buildShip = function(...args) {
+    return new MotorShip(...args)
+  }
 }
-MotorShipyard.prototype =  shipyardPrototype
+MotorShipyard.prototype = shipyardPrototype
 
 
 function SailShipyard() {
   this.shipyardKind = 'sail'
+  this.buildShip = function(...args) {
+    return new SailShip(...args)
+  }
 }
-SailShipyard.prototype =  shipyardPrototype
+SailShipyard.prototype = shipyardPrototype
 
 
 function MotorShip(power, bodyMaterial) {
