@@ -1,9 +1,9 @@
 function parseTemplate(el, o) {
-  Array.from(el.children).forEach(function (e) {
-    if (e.hasAttribute("data-field")) {
-      e.textContent = o[e.getAttribute("data-field")]
-    } else {
-      throw "ERROR!"
-    }
+  Array.from(el.children).filter(function(e) {
+    return e.hasAttribute("data-field")
+  }).forEach(function (e) {
+    let p = o[e.getAttribute("data-field")]
+    if (!p) throw Error('unknown property')
+    e.textContent = p
   });
 }
