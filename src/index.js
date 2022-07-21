@@ -35,8 +35,6 @@ window.addEventListener('contextmenu', function(e) {
 // Должны поддерживаться базовые арифметические операции: +, - , *, /
 // Добавлять свои нестандартные операции и отображать кнопки для этих операций на экране
 
-import "./styles.css";
-
 const result = document.querySelector(".result");
 
 let previousOperand = null;
