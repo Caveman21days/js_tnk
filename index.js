@@ -41,7 +41,7 @@ let previousOperand = null;
 let currentOperand = null;
 let currentOperation = null;
 
-const o = {
+let o = {
   "+": function (a, b) {
     return a + b;
   },
@@ -65,40 +65,58 @@ const perform = (clear = true) => {
 };
 
 const handleInput = function (val) {
-  switch (val) {
-    case "+":
-    case "-":
-    case "*":
-    case "/":
-      if (previousOperand && currentOperand) perform(false);
-      previousOperand = currentOperand;
-      currentOperand = null;
-      currentOperation = val;
-      result.innerHTML = "";
-      break;
-    case "=":
-    case "Enter":
-      perform();
-      break;
-    case "C":
-      previousOperand = null;
-      currentOperand = null;
-      currentOperation = null;
-      result.innerHTML = "";
-      break;
-    case "Backspace":
-      currentOperand = currentOperand.slice(0, -1);
-      result.textContent = currentOperand;
-      break;
-    default:
-      if (Number.isInteger(+val)) {
-        currentOperand = currentOperand === null ? val : currentOperand + val;
+  if (o[val]) {
+    if (previousOperand && currentOperand) perform(false);
+    previousOperand = currentOperand;
+    currentOperand = null;
+    currentOperation = val;
+    result.innerHTML = "";
+  } else {
+    switch (val) {
+      case "=":
+      case "Enter":
+        perform();
+        break;
+      case "C":
+        previousOperand = null;
+        currentOperand = null;
+        currentOperation = null;
+        result.innerHTML = "";
+        break;
+      case "Backspace":
+        currentOperand = +currentOperand.toString().slice(0, -1);
         result.textContent = currentOperand;
-      }
+        break;
+      default:
+        if (Number.isInteger(+val)) {
+          currentOperand = currentOperand === null ? val : currentOperand + val;
+          result.textContent = currentOperand;
+        }
+    }
   }
 };
 
-document.getElementById("buttonsBlock")
-        .addEventListener("click", (e) => handleInput(e.target.textContent));
+document
+  .getElementById("buttonsBlock")
+  .addEventListener("click", (e) => handleInput(e.target.textContent));
 
 document.addEventListener("keydown", (e) => handleInput(e.key));
+
+// В общем, сделал через консоль, менять код через интерфейс как-то так себе кажется
+//  Да и в целом странное задание
+const b = document.createElement("div");
+b.className = "button";
+
+document.addOperation = function (name, f) {
+  let _b = b.cloneNode();
+  _b.innerHTML = `${name}`;
+  _b.setAttribute("id", `${name}Operation`);
+
+  document.getElementById("customOperationBlock").append(_b);
+
+  o[name] = f;
+
+  document
+    .getElementById(`${name}Operation`)
+    .addEventListener("click", (e) => handleInput(e.target.textContent));
+};
