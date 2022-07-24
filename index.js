@@ -8,20 +8,20 @@
 // При каждой попытке копирования текста или попытке использования
 // на экран должно выводиться сообщение ( можно использовать встроенный alert)
 
-window.addEventListener('cut', function(e) {
-  e.preventDefault()
-  alert('cutting not allowed!')
-})
+window.addEventListener("cut", function (e) {
+  e.preventDefault();
+  alert("cutting not allowed!");
+});
 
-window.addEventListener('copy', function(e) {
-  e.preventDefault()
-  alert('copying not allowed!')
-})
+window.addEventListener("copy", function (e) {
+  e.preventDefault();
+  alert("copying not allowed!");
+});
 
-window.addEventListener('contextmenu', function(e) {
-  e.preventDefault()
-  alert('contextmenu not allowed!')
-})
+window.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+  alert("contextmenu not allowed!");
+});
 
 // Реализовать калькулятор
 //
@@ -35,88 +35,96 @@ window.addEventListener('contextmenu', function(e) {
 // Должны поддерживаться базовые арифметические операции: +, - , *, /
 // Добавлять свои нестандартные операции и отображать кнопки для этих операций на экране
 
-const result = document.querySelector(".result");
+class Calc {
+  constructor() {
+    this.result = document.querySelector(".result");
+    this.previousOperand = null;
+    this.currentOperand = null;
+    this.currentOperation = null;
 
-let previousOperand = null;
-let currentOperand = null;
-let currentOperation = null;
-
-let o = {
-  "+": function (a, b) {
-    return a + b;
-  },
-  "-": function (a, b) {
-    return a - b;
-  },
-  "*": function (a, b) {
-    return a * b;
-  },
-  "/": function (a, b) {
-    return a / b;
+    this.o = {
+      "+": function (a, b) {
+        return a + b;
+      },
+      "-": function (a, b) {
+        return a - b;
+      },
+      "*": function (a, b) {
+        return a * b;
+      },
+      "/": function (a, b) {
+        return a / b;
+      }
+    };
   }
-};
 
-const perform = (clear = true) => {
-  if (o[currentOperation]) {
-    currentOperand = o[currentOperation](+previousOperand, +currentOperand);
-    result.innerHTML = currentOperand;
-    if (clear) previousOperand = null;
-  }
-};
-
-const handleInput = function (val) {
-  if (o[val]) {
-    if (previousOperand && currentOperand) perform(false);
-    previousOperand = currentOperand;
-    currentOperand = null;
-    currentOperation = val;
-    result.innerHTML = "";
-  } else {
-    switch (val) {
-      case "=":
-      case "Enter":
-        perform();
-        break;
-      case "C":
-        previousOperand = null;
-        currentOperand = null;
-        currentOperation = null;
-        result.innerHTML = "";
-        break;
-      case "Backspace":
-        currentOperand = +currentOperand.toString().slice(0, -1);
-        result.textContent = currentOperand;
-        break;
-      default:
-        if (Number.isInteger(+val)) {
-          currentOperand = currentOperand === null ? val : currentOperand + val;
-          result.textContent = currentOperand;
-        }
+  perform(clear = true) {
+    if (this.o[this.currentOperation]) {
+      this.currentOperand = this.o[this.currentOperation](
+        +this.previousOperand,
+        +this.currentOperand
+      );
+      this.result.innerHTML = this.currentOperand;
+      if (clear) this.previousOperand = null;
     }
   }
-};
 
-document
-  .getElementById("buttonsBlock")
-  .addEventListener("click", (e) => handleInput(e.target.textContent));
+  handleInput(val) {
+    if (this.o[val]) {
+      if (this.previousOperand && this.currentOperand) this.perform(false);
+      this.previousOperand = this.currentOperand;
+      this.currentOperand = null;
+      this.currentOperation = val;
+      this.result.innerHTML = "";
+    } else {
+      switch (val) {
+        case "=":
+        case "Enter":
+          this.perform();
+          break;
+        case "C":
+          this.previousOperand = null;
+          this.currentOperand = null;
+          this.currentOperation = null;
+          this.result.innerHTML = "";
+          break;
+        case "Backspace":
+          this.currentOperand = +this.currentOperand.toString().slice(0, -1);
+          this.result.textContent = this.currentOperand;
+          break;
+        default:
+          if (Number.isInteger(+val)) {
+            this.currentOperand =
+              this.currentOperand === null ? val : this.currentOperand + val;
+            this.result.textContent = this.currentOperand;
+          }
+      }
+    }
+  }
 
-document.addEventListener("keydown", (e) => handleInput(e.key));
+  addOperation(name, f) {
+    let b = document.createElement("div");
+    b.className = "button";
+    b.innerHTML = `${name}`;
+    b.setAttribute("id", `${name}Operation`);
 
-// В общем, сделал через консоль, менять код через интерфейс как-то так себе кажется
-//  Да и в целом странное задание
-const b = document.createElement("div");
-b.className = "button";
+    document.getElementById("customOperationBlock").append(b);
 
-document.addOperation = function (name, f) {
-  let _b = b.cloneNode();
-  _b.innerHTML = `${name}`;
-  _b.setAttribute("id", `${name}Operation`);
+    this.o[name] = f;
+  }
 
-  document.getElementById("customOperationBlock").append(_b);
+  init() {
+    document
+      .getElementById("buttonsBlock")
+      .addEventListener("click", (e) => this.handleInput(e.target.textContent));
 
-  o[name] = f;
+    document.addEventListener("keydown", (e) => this.handleInput(e.key));
+  }
+}
 
-  document
-    .getElementById(`${name}Operation`)
-    .addEventListener("click", (e) => handleInput(e.target.textContent));
-};
+// Инициализируем
+const calc = new Calc();
+calc.init();
+
+// Расширяем функционал
+calc.addOperation("**", (a, b) => a ** b);
