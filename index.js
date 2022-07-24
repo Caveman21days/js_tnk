@@ -87,7 +87,7 @@ const handleInput = function (val) {
       result.innerHTML = "";
       break;
     case "Backspace":
-      currentOperand = +currentOperand.toString().slice(0, -1);
+      currentOperand = currentOperand.slice(0, -1);
       result.textContent = currentOperand;
       break;
     default:
