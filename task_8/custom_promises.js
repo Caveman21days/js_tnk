@@ -13,9 +13,9 @@
 //
 // При любых сомнениях можно смотреть как работает настоящий промис, поведение внешне не должно отличаться
 
-function CustomPromise(executor, previousResult = null) {
+function CustomPromise(executor) {
   let stateStore = 'pending'
-  let resultStore = previousResult
+  let resultStore = null
 
   // Сделать бы их приватными, ну да ладно
   this.getState = () => stateStore
