@@ -43,8 +43,6 @@ function CustomPromise(executor) {
     }
   }
 
-  setTimeout(executor(this.resolve, this.reject), 0)
-
   this.then = (successCallback, errorCallback) => {
     return new CustomPromise(function (resolve, reject) {
       if (successCallback) resolve(successCallback(resultStore)) // if для красоты
@@ -52,70 +50,27 @@ function CustomPromise(executor) {
     })
   }
 
+  try {
+    setTimeout(executor(this.resolve, this.reject), 0)
+  } catch(e) {
+    setTimeout(this.reject({message: e.message, trace: e.stack}),0)
+  }
+
   return this
 }
 
-CustomPromise.resolve = function() {
-  return new CustomPromise(resolve => resolve(null))
+CustomPromise.resolve = function(arg) {
+  if (arg instanceof CustomPromiseByClass) {
+    return new CustomPromiseByClass(resolve => resolve(arg.result))
+  }
+
+  if (typeof arg.then === 'function') {
+    return new CustomPromiseByClass(arg.then)
+  }
+
+  return new CustomPromiseByClass(resolve => resolve(arg))
 }
 
-CustomPromise.reject = function() {
-  new CustomPromise((_, reject) => reject(null))
-}
-
-
-
-
-
-class CustomPromiseByClass {
-  #stateStore
-  #resultStore
-
-  #getState = () => this.#stateStore
-  #getResult = () => this.#resultStore
-
-  constructor(executor) {
-    this.#stateStore = 'pending'
-    this.#resultStore = null
-
-    setTimeout(executor(this.resolve, this.reject), 0)
-  }
-
-  result = this.#getResult()
-  state = this.#getState()
-
-  resolve = (res) => {
-    if (this.#stateStore === 'pending') {
-      this.#stateStore = 'fulfilled'
-      this.#resultStore = res
-      this.state = this.#getState()
-      this.result = this.#getResult()
-    }
-  }
-
-  reject = (res) => {
-    if (this.#stateStore === 'pending') {
-      this.#stateStore = 'rejected'
-      this.#resultStore = res
-      this.state = this.#getState()
-      this.result = this.#getResult()
-    }
-  }
-
-  then = (successCallback, errorCallback) => {
-    let res = this.#resultStore
-
-    return new CustomPromiseByClass(function (resolve, reject) {
-      if (successCallback) resolve(successCallback(res))
-      if (errorCallback) reject(errorCallback(res))
-    })
-  }
-
-  static resolve = function() {
-    return new CustomPromiseByClass(resolve => resolve(null))
-  }
-
-  static reject = function() {
-    new CustomPromiseByClass((_, reject) => reject(null))
-  }
+CustomPromise.reject = function(arg) {
+  new CustomPromise((_, reject) => reject(arg))
 }
