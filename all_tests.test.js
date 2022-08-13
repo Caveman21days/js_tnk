@@ -185,7 +185,6 @@ describe("Calc:: ", () => {
       });
 
       it("returns operations history", () => {
-        console.log(o.history())
         assert.deepEqual(o.history(), [{operation: '+', operands: [5, 5]}])
       });
     })
@@ -226,7 +225,7 @@ describe("event_handler:: ", () => {
   })
 
   describe("#buy_ticket", () => {
-    describe("#when event exists", () => {
+    describe("when event exists", () => {
       it("add price of event to sum and add event to sold and returns ticket id", () => {
         assert.deepEqual(e.sold(), [])
         assert.equal(e.sum(), 0)
@@ -237,7 +236,7 @@ describe("event_handler:: ", () => {
       });
     })
 
-    describe("#when event does not exist", () => {
+    describe("when event does not exist", () => {
       it("returns no event message", () => {
         assert.equal(e.buyTicket("Concert123"), 'События с таким названием еще не придумали')
       });
@@ -247,7 +246,7 @@ describe("event_handler:: ", () => {
   describe("#return_ticket", () => {
     let e = eventHandler()
 
-    describe("#when ticket was sold", () => {
+    describe("when ticket was sold", () => {
       before(() => {
         e.createEvent('Concert', 500)
       })
