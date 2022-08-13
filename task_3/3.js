@@ -20,10 +20,11 @@
 // calculator.history() // []
 
 function Calc() {
-  this.add = (x,y) => x + y
-  this.substract = (x,y) => x - y
-  this.operations = {'+': this.add, '-': this.substract}
   this.h = []
+  this.operations = {
+    '+': (x,y) => x + y,
+    '-': (x,y) => x - y
+  }
 
   this.operation = function(str) {
     let args = str.split(' ')
@@ -31,12 +32,12 @@ function Calc() {
     let o = args[1]
     let y = Number(args[2])
 
-    this.h.push({operation: o, operands: [x,y]})
-
     if (this.operations[o]) {
-      return this.operations[o](x,y)
+      this.h.push({operation: o, operands: [x, y]})
+
+      return this.operations[o](x, y)
     } else {
-      return x
+      throw new Error(`operation '${o}' is not defined`)
     }
   }
 

@@ -13,10 +13,12 @@
 // calculate(2, 10); // { value: 1024, fromCache: true}
 
 
-const cache = function() {
+const cachePow = function() {
   let cache = {}
 
   return function(x, y) {
+    if (!Number.isInteger(x) || !Number.isInteger(y)) throw new Error('both args must be int')
+
     cache[x] ||= {}
     cache[x][y] ||= {}
 
