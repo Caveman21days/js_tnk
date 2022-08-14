@@ -15,24 +15,24 @@ const eventHandler = () => {
   let sold = []
 
   return {
-    createEvent: function (event_name, price){
+    createEvent: function (event_name, price) {
       events[event_name] ||= price
     },
 
-    buyTicket: function (event_name){
+    buyTicket: function (event_name) {
       if (events[event_name]) {
         let id = Math.floor(Math.random() * 899999 + 100000)
 
         sum += events[event_name]
         sold.push([event_name, id])
-        console.log(id)
+
         return id
       } else {
         return 'События с таким названием еще не придумали'
       }
     },
 
-    returnTicket: function (id){
+    returnTicket: function (id) {
       let t = sold.find(s => s[1] === id)
 
       if (t) {
@@ -41,6 +41,10 @@ const eventHandler = () => {
       } else {
         return 'Ваш билет паленый'
       }
-    }
+    },
+
+    events: () => events,
+    sum: () => sum,
+    sold: () => sold
   }
 }
