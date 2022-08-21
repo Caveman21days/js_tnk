@@ -1,10 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
+    <title></title>
     <meta charset="UTF-8">
-    <title>Title</title>
-<script defer src="main.5b48252ff777316cf31d.js"></script><link href="styles.5b48252ff777316cf31d.css" rel="stylesheet"></head>
+<script defer src="main.ddbaf804788af3cc3275.js"></script><link href="styles.ddbaf804788af3cc3275.css" rel="stylesheet"></head>
 <body>
-    <div></div>
+<div id="dialog" title="SELECT FIGURE" hidden>
+    <button class="button" id="knight">KNIGHT</button>
+    <button class="button" id="rook">ROOK</button>
+    <button class="button" id="queen">QUEEN</button>
+    <button class="button" id="bishop">BISHOP</button>
+</div>
+<table class="chess-board" id="field">
+    <tbody>
+    <tr>
+        <th></th>
+        <th>a</th>
+        <th>b</th>
+        <th>c</th>
+        <th>d</th>
+        <th>e</th>
+        <th>f</th>
+        <th>g</th>
+        <th>h</th>
+    </tr>
+    <tr>
+        <th>8</th>
+        <td class="light" id="0,0"></td>
+        <td class="dark"  id="1,0"></td>
+        <td class="light" id="2,0"></td>
+        <td class="dark"  id="3,0"></td>
+        <td class="light" id="4,0"></td>
+        <td class="dark"  id="5,0"></td>
+        <td class="light" id="6,0"></td>
+        <td class="dark"  id="7,0"></td>
+    </tr>
+    <tr>
+        <th>7</th>
+        <td class="dark"  id="0,1"></td>
+        <td class="light" id="1,1"></td>
+        <td class="dark"  id="2,1"></td>
+        <td class="light" id="3,1"></td>
+        <td class="dark"  id="4,1"></td>
+        <td class="light" id="5,1"></td>
+        <td class="dark"  id="6,1"></td>
+        <td class="light" id="7,1"></td>
+    </tr>
+    <tr>
+        <th>6</th>
+        <td class="light" id="0,2"></td>
+        <td class="dark"  id="1,2"></td>
+        <td class="light" id="2,2"></td>
+        <td class="dark"  id="3,2"></td>
+        <td class="light" id="4,2"></td>
+        <td class="dark"  id="5,2"></td>
+        <td class="light" id="6,2"></td>
+        <td class="dark"  id="7,2"></td>
+    </tr>
+    <tr>
+        <th>5</th>
+        <td class="dark"  id="0,3"></td>
+        <td class="light" id="1,3"></td>
+        <td class="dark"  id="2,3"></td>
+        <td class="light" id="3,3"></td>
+        <td class="dark"  id="4,3"></td>
+        <td class="light" id="5,3"></td>
+        <td class="dark"  id="6,3"></td>
+        <td class="light" id="7,3"></td>
+    </tr>
+    <tr>
+        <th>4</th>
+        <td class="light" id="0,4"></td>
+        <td class="dark"  id="1,4"></td>
+        <td class="light" id="2,4"></td>
+        <td class="dark"  id="3,4"></td>
+        <td class="light" id="4,4"></td>
+        <td class="dark"  id="5,4"></td>
+        <td class="light" id="6,4"></td>
+        <td class="dark"  id="7,4"></td>
+    </tr>
+    <tr>
+        <th>3</th>
+        <td class="dark"  id="0,5"></td>
+        <td class="light" id="1,5"></td>
+        <td class="dark"  id="2,5"></td>
+        <td class="light" id="3,5"></td>
+        <td class="dark"  id="4,5"></td>
+        <td class="light" id="5,5"></td>
+        <td class="dark"  id="6,5"></td>
+        <td class="light" id="7,5"></td>
+    </tr>
+    <tr>
+        <th>2</th>
+        <td class="light" id="0,6"></td>
+        <td class="dark"  id="1,6"></td>
+        <td class="light" id="2,6"></td>
+        <td class="dark"  id="3,6"></td>
+        <td class="light" id="4,6"></td>
+        <td class="dark"  id="5,6"></td>
+        <td class="light" id="6,6"></td>
+        <td class="dark"  id="7,6"></td>
+    </tr>
+    <tr>
+        <th>1</th>
+        <td class="dark"  id="0,7"></td>
+        <td class="light" id="1,7"></td>
+        <td class="dark"  id="2,7"></td>
+        <td class="light" id="3,7"></td>
+        <td class="dark"  id="4,7"></td>
+        <td class="light" id="5,7"></td>
+        <td class="dark"  id="6,7"></td>
+        <td class="light" id="7,7"></td>
+    </tr>
+    </tbody>
+</table>
+<div id="history">
+    <h3>moves history</h3>
+</div>
 </body>
 </html>
