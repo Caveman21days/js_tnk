@@ -12,3 +12,11 @@ import blackQueen from  "./task_5/assets/black-queen.png";
 import whiteQueen from  "./task_5/assets/white-queen.png";
 import blackRook from   "./task_5/assets/black-rook.png";
 import whiteRook from   "./task_5/assets/white-rook.png";
+
+
+let game = new Game()
+game.restart()
+game.addClickListeners()
+game.setPlayer(game.player1, prompt("Type player1 (white) name: "))
+game.setPlayer(game.player2, prompt("Type player2 (white) name: "))
+game.showPlayers()

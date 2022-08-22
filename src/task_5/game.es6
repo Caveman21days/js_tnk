@@ -16,6 +16,8 @@ export class Game {
     this.field = null
     this.waitForPawnChange = false
     this.selectedFigure = null
+    this.player1 = {color: Colors.W}
+    this.player2 = {color: Colors.B}
   }
 
   restart() {
@@ -145,8 +147,13 @@ export class Game {
     f.field.aliveFigures = f.field.aliveFigures.filter(figure => figure !== f)
     f.field.aliveFigures.push(newFigure)
   }
-}
 
-let game = new Game()
-game.restart()
-game.addClickListeners()
+  setPlayer(player, name) {
+    player['name'] = name
+  }
+
+  showPlayers() {
+    document.getElementById('p1').innerText = `PLAYER1: ${this.player1.name}`
+    document.getElementById('p2').innerText = `PLAYER2: ${this.player2.name}`
+  }
+}
