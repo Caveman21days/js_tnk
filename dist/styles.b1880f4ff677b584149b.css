@@ -1,3 +1,6 @@
+/*!****************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/main.css ***!
+  \****************************************************************/
 .chess-board {
     border-spacing: 0;
     border-collapse: collapse;
